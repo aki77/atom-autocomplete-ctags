@@ -1,0 +1,29 @@
+{
+  "name": "autocomplete-ctags",
+  "main": "./lib/main",
+  "version": "0.0.0",
+  "description": "Autocomplete-plus provider for ctags",
+  "keywords": [
+    "autocomplete",
+    "ctags"
+  ],
+  "repository": "https://github.com/aki77/atom-autocomplete-ctags",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "dependencies": {
+    "ctags": "^2.1.0",
+    "fs-plus": "^2.0.0"
+  },
+  "devDependencies": {
+    "temp": "~0.8.1"
+  },
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "2.0.0": "provide"
+      }
+    }
+  }
+}

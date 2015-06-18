@@ -9,6 +9,7 @@ Autocomplete-plus provider for ctags
 
 * If your project has a tags/.tags/TAGS/.TAGS file at the root then autocomplete are supported.
 * coexist with [symbols-view package](https://atom.io/packages/symbols-view)
+* support multiple root folders.
 
 ## Settings
 

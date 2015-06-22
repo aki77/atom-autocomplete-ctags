@@ -33,6 +33,9 @@ describe "AutocompleteCtags", ->
       atom.packages.activatePackage('autocomplete-ctags').then (pack) ->
         provider = pack.mainModule.provide()
 
+    waitsFor ->
+      provider.tagsFiles.length > 0
+
   describe "js files", ->
     beforeEach ->
       waitsForPromise ->

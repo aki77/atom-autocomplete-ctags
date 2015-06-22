@@ -15,20 +15,26 @@ module.exports =
       default: true
 
   activate: (state) ->
-    tagsFiles = @getTagsFiles()
-    if tagsFiles.length > 0
-      @ctagsProvider = new CtagsProvider(tagsFiles)
+    @ctagsProvider = new CtagsProvider
+
+    @getTagsFiles().then((tagsFiles) =>
+      @ctagsProvider.setTagsFiles(tagsFiles)
+    )
 
   deactivate: ->
     @ctagsProvider?.dispose()
     @ctagsProvider = null
 
   getTagsFiles: ->
-    tagsFiles = []
-    for projectPath in atom.project.getPaths()
-      tagsFile = getTagsFile(projectPath)
-      tagsFiles.push(tagsFile) if tagsFile?
-    tagsFiles
+    new Promise (resolve) ->
+      promises = atom.project.getPaths().map((projectPath) ->
+        getTagsFile(projectPath)
+      )
+
+      Promise.all(promises).then((results) ->
+        tagsFiles = results.filter((tagsFile) -> tagsFile isnt false)
+        resolve(tagsFiles)
+      )
 
   provide: ->
-    @ctagsProvider ? []
+    @ctagsProvider

@@ -13,11 +13,11 @@
     "atom": ">=0.174.0 <2.0.0"
   },
   "dependencies": {
-    "ctags": "^2.1.0",
-    "fs-plus": "^2.0.0"
+    "ctags": "^2.1.0"
   },
   "devDependencies": {
-    "temp": "~0.8.1"
+    "temp": "~0.8.1",
+    "fs-plus": "^2.8.1"
   },
   "providedServices": {
     "autocomplete.provider": {

@@ -1,4 +1,6 @@
-ctags = require 'ctags'
+ctags = null
+loadClasses = ->
+  ctags = require 'ctags'
 
 module.exports =
 class CtagsProvider
@@ -12,12 +14,11 @@ class CtagsProvider
   inclusionPriority: 1
   suggestionPriority: 2
 
-  minimumPrefixLength: 3
+  tagsFiles: []
 
-  constructor: (@tagsFiles) ->
-    @configSubscription = atom.config.observe('autocomplete-ctags.minimumPrefixLength', (value) =>
-      @minimumPrefixLength = value
-    )
+  constructor: (@tagsFiles = []) ->
+
+  setTagsFiles: (@tagsFiles) ->
 
   dispose: ->
     @configSubscription?.dispose()
@@ -25,7 +26,10 @@ class CtagsProvider
     @tagsFiles = []
 
   getSuggestions: ({editor, bufferPosition, scopeDescriptor, prefix}) ->
-    if prefix.length < @minimumPrefixLength
+    if @tagsFiles.length is 0
+      return Promise.resolve([])
+
+    if prefix.length < atom.config.get('autocomplete-ctags.minimumPrefixLength')
       return Promise.resolve([])
 
     promises = @tagsFiles.map((tagsFile) =>
@@ -43,6 +47,8 @@ class CtagsProvider
     )
 
   findTags: (tagsFile, prefix) ->
+    loadClasses() unless ctags
+
     new Promise((resolve) ->
       options =
         partialMatch: true

@@ -1,17 +1,30 @@
 path = require 'path'
-fs = require 'fs-plus'
+fs = require 'fs'
+
+isFileAsync = (filePath) ->
+  new Promise((resolve, reject) ->
+    fs.stat(filePath, (err, stats) ->
+      if err
+        resolve(false)
+      else
+        resolve(stats.isFile())
+    )
+  )
 
 module.exports = (directoryPath) ->
-  return unless directoryPath?
+  return Promise.reject() unless directoryPath?
 
-  tagsFile = path.join(directoryPath, "tags")
-  return tagsFile if fs.isFileSync(tagsFile)
+  new Promise (resolve) ->
+    filePaths = ['tags', 'TAGS', '.tags', '.TAGS'].map((fileName) ->
+      path.join(directoryPath, fileName)
+    )
+    promises = filePaths.map((filePath) ->
+      isFileAsync(filePath)
+    )
 
-  tagsFile = path.join(directoryPath, "TAGS")
-  return tagsFile if fs.isFileSync(tagsFile)
+    Promise.all(promises).then((results) ->
+      for result, idx in results
+        return resolve(filePaths[idx]) if result
 
-  tagsFile = path.join(directoryPath, ".tags")
-  return tagsFile if fs.isFileSync(tagsFile)
-
-  tagsFile = path.join(directoryPath, ".TAGS")
-  return tagsFile if fs.isFileSync(tagsFile)
+      resolve(false)
+    )

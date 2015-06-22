@@ -19,6 +19,7 @@ describe "AutocompleteCtags", ->
 
   beforeEach ->
     atom.config.set('autocomplete-ctags.minimumPrefixLength', 3)
+    atom.config.set('autocomplete-ctags.caseInsensitive', true)
 
     atom.project.setPaths([
       temp.mkdirSync("other-dir-")
@@ -56,4 +57,24 @@ describe "AutocompleteCtags", ->
           [completion] = completions
           expect(completion.text.length).toBeGreaterThan 0
           expect(completion.type).toBe 'function'
+        )
+
+    it "caseInsensitive settings", ->
+      runs ->
+        editor.setText('CAL')
+        editor.setCursorBufferPosition([0, 3])
+
+      waitsForPromise ->
+        getCompletions().then((completions) ->
+          expect(completions).toHaveLength 1
+        )
+
+      runs ->
+        atom.config.set('autocomplete-ctags.caseInsensitive', false)
+        editor.setText('CAL')
+        editor.setCursorBufferPosition([0, 3])
+
+      waitsForPromise ->
+        getCompletions().then((completions) ->
+          expect(completions).toHaveLength 0
         )

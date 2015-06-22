@@ -14,3 +14,4 @@ Autocomplete-plus provider for ctags
 ## Settings
 
 * `minimumPrefixLength` (default: 3)
+* `caseInsensitive` (default: true)

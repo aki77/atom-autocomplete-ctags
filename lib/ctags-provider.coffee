@@ -46,7 +46,7 @@ class CtagsProvider
     new Promise((resolve) ->
       options =
         partialMatch: true
-        caseInsensitive: true
+        caseInsensitive: atom.config.get('autocomplete-ctags.caseInsensitive')
       ctags.findTags(tagsFile, prefix, options, (error, tags = []) ->
         resolve(tags)
       )

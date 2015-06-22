@@ -10,6 +10,9 @@ module.exports =
       default: 3
       minimum: 1
       maximum: 10
+    caseInsensitive:
+      type: 'boolean'
+      default: true
 
   activate: (state) ->
     tagsFiles = @getTagsFiles()

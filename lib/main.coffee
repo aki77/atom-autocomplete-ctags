@@ -6,13 +6,23 @@ module.exports =
 
   config:
     minimumPrefixLength:
+      order: 1
       type: 'integer'
       default: 3
       minimum: 1
       maximum: 10
     caseInsensitive:
+      order: 2
       type: 'boolean'
       default: true
+    useSnippers:
+      order: 3
+      type: 'boolean'
+      default: true
+    debug:
+      order: 99
+      type: 'boolean'
+      default: false
 
   activate: (state) ->
     @ctagsProvider = new CtagsProvider

@@ -20,6 +20,7 @@ describe "AutocompleteCtags", ->
   beforeEach ->
     atom.config.set('autocomplete-ctags.minimumPrefixLength', 3)
     atom.config.set('autocomplete-ctags.caseInsensitive', true)
+    atom.config.set('autocomplete-ctags.useSnippers', false)
 
     atom.project.setPaths([
       temp.mkdirSync("other-dir-")
@@ -81,3 +82,8 @@ describe "AutocompleteCtags", ->
         getCompletions().then((completions) ->
           expect(completions).toHaveLength 0
         )
+
+    it 'useSnippers settings', ->
+      expect(provider.snippers).toBeNull()
+      atom.config.set('autocomplete-ctags.useSnippers', true)
+      expect(provider.snippers.constructor.name).toEqual('Snippers')

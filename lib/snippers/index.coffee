@@ -4,7 +4,8 @@ module.exports =
 class Snippers
 
   @snipperNames = [
-    'coffee'
+    'coffee',
+    'matlab'
   ]
 
   snippers: new Map

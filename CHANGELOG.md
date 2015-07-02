@@ -1,3 +1,6 @@
+## 0.2.3
+* Update selector & disableForSelector
+
 ## 0.2.2
 * Add disableBuiltinProvider settings(#2)
 

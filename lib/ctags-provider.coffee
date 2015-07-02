@@ -8,8 +8,8 @@ class CtagsProvider
     v: 'variable'
   }
 
-  selector: '*'
-  disableForSelector: '.comment, .string'
+  selector: '.source'
+  disableForSelector: '.comment, .string, .source.gfm'
   inclusionPriority: 1
   suggestionPriority: 1
   # excludeLowerPriority: false

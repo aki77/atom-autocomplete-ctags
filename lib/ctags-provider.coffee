@@ -1,6 +1,5 @@
-ctags = null
-loadClasses = ->
-  ctags = require 'ctags'
+{CompositeDisposable}  = require 'atom'
+[ctags, Snippers] = []
 
 module.exports =
 class CtagsProvider
@@ -13,24 +12,34 @@ class CtagsProvider
   disableForSelector: '.comment, .string'
   inclusionPriority: 1
   suggestionPriority: 1
+  # excludeLowerPriority: false
 
   tagsFiles: []
   snippers: null
 
   constructor: (@tagsFiles = []) ->
-    @configSubscription = atom.config.observe('autocomplete-ctags.useSnippers', (value) =>
+    @subscriptions = new CompositeDisposable
+    @subscriptions.add(atom.config.observe('autocomplete-ctags.useSnippers', (value) =>
       if value
-        Snippers = require './snippers'
+        Snippers ?= require './snippers'
         @snippers = new Snippers
       else
         @snippers = null
-    )
+    ))
+
+    @subscriptions.add(atom.config.observe('autocomplete-ctags.disableBuiltinProvider', (disable) =>
+      # autocomplete-plus bug
+      if disable
+        @excludeLowerPriority = true
+      else
+        delete @excludeLowerPriority
+    ))
 
   setTagsFiles: (@tagsFiles) ->
 
   dispose: ->
-    @configSubscription?.dispose()
-    @configSubscription = null
+    @subscriptions?.dispose()
+    @subscriptions = null
     @tagsFiles = []
     @snippers = null
 
@@ -61,7 +70,7 @@ class CtagsProvider
     )
 
   findTags: (tagsFile, prefix) ->
-    loadClasses() unless ctags
+    ctags ?= require 'ctags'
 
     new Promise((resolve, reject) ->
       options =

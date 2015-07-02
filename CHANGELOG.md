@@ -1,3 +1,6 @@
+## 0.2.2
+* Add disableBuiltinProvider settings(#2)
+
 ## 0.2.1
 * Add default snipper
 

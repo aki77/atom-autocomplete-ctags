@@ -19,6 +19,11 @@ module.exports =
       order: 3
       type: 'boolean'
       default: true
+    disableBuiltinProvider:
+      order: 10
+      title: 'Disalbe Built-In Provider'
+      type: 'boolean'
+      default: false
     debug:
       order: 99
       type: 'boolean'

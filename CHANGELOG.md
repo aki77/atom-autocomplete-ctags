@@ -1,3 +1,6 @@
+## 0.2.1
+* Add default snipper
+
 ## 0.2.0
 * Support snippets
 

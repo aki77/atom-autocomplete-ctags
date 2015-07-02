@@ -5,6 +5,7 @@ class Snippers
 
   @snipperNames = [
     'coffee'
+    'default'
   ]
 
   snippers: new Map

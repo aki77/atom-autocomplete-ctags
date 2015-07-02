@@ -3,14 +3,13 @@ Snippers = require '../lib/snippers'
 
 describe "Snippers", ->
   snippers = new Snippers
-
-  defaultTag =
-    file: 'test.coffee'
-    kind: 'f'
-    name: 'func'
-    pattern: '/^  func: (arg) ->$/'
+  [defaultTag] = []
 
   beforeEach ->
+    defaultTag =
+      kind: 'f'
+      name: 'func'
+      pattern: '/^  func: (arg) ->$/'
 
   describe "getSnipper", ->
 
@@ -21,6 +20,8 @@ describe "Snippers", ->
   describe "generate", ->
 
     describe "coffee", ->
+      beforeEach ->
+        defaultTag.file = 'test.coffee'
 
       it "no arguments", ->
         pattern = '/^  func: ->$/'
@@ -69,3 +70,14 @@ describe "Snippers", ->
         tag = _.defaults({pattern}, defaultTag)
         snippet = snippers.generate(tag)
         expect(snippet).toEqual('func(${1:\\{arg1, arg2, arg3\\}})${2}')
+
+    describe "default", ->
+      describe "Matlab", ->
+        beforeEach ->
+          defaultTag.file = 'test.m'
+
+        it "one arguments", ->
+          pattern = '/^function [m,s] = func(arg1)$/'
+          tag = _.defaults({pattern}, defaultTag)
+          snippet = snippers.generate(tag)
+          expect(snippet).toEqual('func(${1:arg1})${2}')

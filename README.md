@@ -11,15 +11,17 @@ Autocomplete-plus provider for ctags
 * coexist with [symbols-view package](https://atom.io/packages/symbols-view)
 * support multiple root folders.
 * Snippet generator for ctags.
+* fuzzy matching.
 
 ## Settings
 
 * `minimumPrefixLength` (default: 3)
 * `caseInsensitive` (default: true)
 * `useSnippers` (default: true)
+* `useFuzzy` (default: true)
 * `disableBuiltinProvider` (default: false)
 
 ## Todo
 
-* [ ] fuzzy matching
+* [x] fuzzy matching
 * [ ] Add language snippers. (pull requests welcome!)

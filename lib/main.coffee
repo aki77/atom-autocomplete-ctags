@@ -19,6 +19,11 @@ module.exports =
       order: 3
       type: 'boolean'
       default: true
+    useFuzzy:
+      order: 4
+      type: 'boolean'
+      default: true
+      description: 'executed only if there is no suggestions'
     disableBuiltinProvider:
       order: 10
       title: 'Disalbe Built-In Provider'

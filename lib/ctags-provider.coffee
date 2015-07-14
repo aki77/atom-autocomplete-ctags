@@ -1,5 +1,7 @@
 {CompositeDisposable}  = require 'atom'
-[ctags, Snippers] = []
+{debug} = require './helper'
+TagsFile = require './tags-file'
+[ctags, Snippers, filter] = []
 
 module.exports =
 class CtagsProvider
@@ -17,8 +19,12 @@ class CtagsProvider
   tagsFiles: []
   snippers: null
 
-  constructor: (@tagsFiles = []) ->
+  constructor: (tagsFiles = []) ->
     @subscriptions = new CompositeDisposable
+    @observeConfig()
+    @setTagsFiles(tagsFiles)
+
+  observeConfig: ->
     @subscriptions.add(atom.config.observe('autocomplete-ctags.useSnippers', (value) =>
       if value
         Snippers ?= require './snippers'
@@ -35,12 +41,16 @@ class CtagsProvider
         delete @excludeLowerPriority
     ))
 
-  setTagsFiles: (@tagsFiles) ->
+  setTagsFiles: (tagsFiles) ->
+    @clearTagsFiles()
+    @tagsFiles = tagsFiles.map((filePath) ->
+      new TagsFile(filePath)
+    )
 
   dispose: ->
     @subscriptions?.dispose()
     @subscriptions = null
-    @tagsFiles = []
+    @clearTagsFiles()
     @snippers = null
 
   getSuggestions: ({editor, bufferPosition, scopeDescriptor, prefix}) ->
@@ -64,23 +74,37 @@ class CtagsProvider
         snippet: @snippers?.generate(tag)
       )
 
-      if atom.config.get('autocomplete-ctags.debug')
-        console.log 'CtagsProvider.getSuggestions', suggestions
+      debug('getSuggestions', suggestions)
       suggestions
     )
 
   findTags: (tagsFile, prefix) ->
     ctags ?= require 'ctags'
 
-    new Promise((resolve, reject) ->
+    new Promise((resolve, reject) =>
       options =
         partialMatch: true
         caseInsensitive: atom.config.get('autocomplete-ctags.caseInsensitive')
-      ctags.findTags(tagsFile, prefix, options, (error, tags = []) ->
-        if atom.config.get('autocomplete-ctags.debug')
-          console.log 'CtagsProvider.findTags', error, tags
+      ctags.findTags(tagsFile.getPath(), prefix, options, (error, tags = []) =>
+        debug('findTags', error, tags)
 
         return reject(error) if error
+        if tags.length is 0 and atom.config.get('autocomplete-ctags.useFuzzy')
+          tags = @fuzzyFindTags(tagsFile, prefix)
+
         resolve(tags)
       )
     )
+
+  fuzzyFindTags: (tagsFile, prefix) ->
+    cachedTags = tagsFile.getCachedTags()
+    return [] if cachedTags.length is 0
+    filter ?= require('fuzzaldrin').filter
+    results = filter(cachedTags, prefix, key: 'name')
+    debug('fuzzyFindTags', results)
+    Promise.resolve(results)
+
+  clearTagsFiles: ->
+    for tagsFile in @tagsFiles
+      tagsFile.destroy()
+    @tagsFiles = []

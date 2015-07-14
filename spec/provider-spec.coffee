@@ -21,6 +21,7 @@ describe "AutocompleteCtags", ->
     atom.config.set('autocomplete-ctags.minimumPrefixLength', 3)
     atom.config.set('autocomplete-ctags.caseInsensitive', true)
     atom.config.set('autocomplete-ctags.useSnippers', false)
+    atom.config.set('autocomplete-ctags.useFuzzy', false)
 
     atom.project.setPaths([
       temp.mkdirSync("other-dir-")
@@ -87,3 +88,28 @@ describe "AutocompleteCtags", ->
       expect(provider.snippers).toBeNull()
       atom.config.set('autocomplete-ctags.useSnippers', true)
       expect(provider.snippers.constructor.name).toEqual('Snippers')
+
+    it "useFuzzy settings", ->
+      runs ->
+        editor.setText('calbe')
+        editor.setCursorBufferPosition([0, 5])
+
+      waitsForPromise ->
+        getCompletions().then((completions) ->
+          expect(completions).toHaveLength 0
+        )
+
+      runs ->
+        atom.config.set('autocomplete-ctags.useFuzzy', true)
+
+      waitsFor ->
+        provider.tagsFiles[0].getCachedTags().length > 0
+
+      runs ->
+        editor.setText('calbe')
+        editor.setCursorBufferPosition([0, 5])
+
+      waitsForPromise ->
+        getCompletions().then((completions) ->
+          expect(completions).toHaveLength 1
+        )

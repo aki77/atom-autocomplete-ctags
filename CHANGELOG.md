@@ -1,3 +1,6 @@
+## 0.3.0
+* Support fuzzy matching
+
 ## 0.2.3
 * Update selector & disableForSelector
 

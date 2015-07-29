@@ -34,11 +34,7 @@ class CtagsProvider
     ))
 
     @subscriptions.add(atom.config.observe('autocomplete-ctags.disableBuiltinProvider', (disable) =>
-      # autocomplete-plus bug
-      if disable
-        @excludeLowerPriority = true
-      else
-        delete @excludeLowerPriority
+      @excludeLowerPriority = disable
     ))
 
   setTagsFiles: (tagsFiles) ->

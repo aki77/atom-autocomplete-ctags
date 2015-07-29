@@ -1,3 +1,6 @@
+## 0.3.1
+* Refactor
+
 ## 0.3.0
 * Support fuzzy matching
 

@@ -18,7 +18,7 @@ Autocomplete-plus provider for ctags
 * `minimumPrefixLength` (default: 3)
 * `caseInsensitive` (default: true)
 * `useSnippers` (default: true)
-* `useFuzzy` (default: true)
+* `useFuzzy`: executed only if there is no suggestions (default: true)
 * `disableBuiltinProvider` (default: false)
 
 ## Todo

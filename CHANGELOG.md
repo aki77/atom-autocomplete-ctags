@@ -1,3 +1,6 @@
+## 0.3.2
+* Update npms
+
 ## 0.3.1
 * Refactor
 

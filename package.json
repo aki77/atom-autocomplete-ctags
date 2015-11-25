@@ -15,12 +15,12 @@
   "dependencies": {
     "ctags": "^3.0.0",
     "fuzzaldrin": "^2.1.0",
-    "pathwatcher": "^6.2.5",
+    "pathwatcher": "^6.3.0",
     "underscore-plus": "^1.6.6"
   },
   "devDependencies": {
     "fs-plus": "^2.8.1",
-    "temp": "~0.8.1"
+    "temp": "~0.8.3"
   },
   "providedServices": {
     "autocomplete.provider": {

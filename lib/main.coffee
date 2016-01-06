@@ -26,7 +26,7 @@ module.exports =
       description: 'executed only if there is no suggestions'
     disableBuiltinProvider:
       order: 10
-      title: 'Disalbe Built-In Provider'
+      title: 'Disable Built-In Provider'
       type: 'boolean'
       default: false
     debug:

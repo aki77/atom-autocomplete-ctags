@@ -1,3 +1,6 @@
+## 0.4.0
+* Add maximumTagFileSize settings
+
 ## 0.3.4
 * Fix typo(#8)
 

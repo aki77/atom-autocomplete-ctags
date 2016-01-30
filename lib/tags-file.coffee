@@ -4,7 +4,6 @@ _ = require 'underscore-plus'
 
 module.exports =
 class TagsFile
-  MAX_FILE_SIZE = 2 * 1048576 # 2MB
   cachedTags: []
   watchSubscription: null
 
@@ -41,7 +40,7 @@ class TagsFile
 
     getSize(@filePath).then((fileSize) =>
       debug 'tagsFilesize', fileSize
-      return Promise.reject(new Error('large tagsFile')) if fileSize >= MAX_FILE_SIZE
+      return Promise.reject(new Error('large tagsFile')) if fileSize >= @maximumTagFileSize()
       @readTags().then((tags) =>
         @cachedTags = tags
         debug 'updateCachedTags', @cachedTags
@@ -90,3 +89,6 @@ class TagsFile
 
   getCachedTags: ->
     @cachedTags
+
+  maximumTagFileSize: ->
+    atom.config.get('autocomplete-ctags.maximumTagFileSize') * 1048576

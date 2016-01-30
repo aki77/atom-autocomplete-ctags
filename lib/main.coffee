@@ -24,6 +24,11 @@ module.exports =
       type: 'boolean'
       default: true
       description: 'executed only if there is no suggestions'
+    maximumTagFileSize:
+      order: 5
+      type: 'integer'
+      default: 2
+      description: 'Maximum tag file size(in MB). This setting is used in fuzzy search.'
     disableBuiltinProvider:
       order: 10
       title: 'Disable Built-In Provider'

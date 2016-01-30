@@ -4,41 +4,6 @@ getTagsFile = require './get-tags-file'
 module.exports =
   ctagsProvider: null
 
-  config:
-    minimumPrefixLength:
-      order: 1
-      type: 'integer'
-      default: 3
-      minimum: 1
-      maximum: 10
-    caseInsensitive:
-      order: 2
-      type: 'boolean'
-      default: true
-    useSnippers:
-      order: 3
-      type: 'boolean'
-      default: true
-    useFuzzy:
-      order: 4
-      type: 'boolean'
-      default: true
-      description: 'executed only if there is no suggestions'
-    maximumTagFileSize:
-      order: 5
-      type: 'integer'
-      default: 2
-      description: 'Maximum tag file size(in MB). This setting is used in fuzzy search.'
-    disableBuiltinProvider:
-      order: 10
-      title: 'Disable Built-In Provider'
-      type: 'boolean'
-      default: false
-    debug:
-      order: 99
-      type: 'boolean'
-      default: false
-
   activate: (state) ->
     @ctagsProvider = new CtagsProvider
 

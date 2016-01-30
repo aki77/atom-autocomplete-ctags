@@ -19,6 +19,7 @@ Autocomplete-plus provider for ctags
 * `caseInsensitive` (default: true)
 * `useSnippers` (default: true)
 * `useFuzzy`: executed only if there is no suggestions (default: true)
+* `maximumTagFileSize`: Maximum tag file size(in MB). This setting is used in fuzzy search. (default: 2)
 * `disableBuiltinProvider` (default: false)
 
 ## Todo

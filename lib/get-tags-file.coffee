@@ -15,7 +15,7 @@ module.exports = (directoryPath) ->
   return Promise.reject() unless directoryPath?
 
   new Promise (resolve) ->
-    filePaths = ['tags', 'TAGS', '.tags', '.TAGS'].map((fileName) ->
+    filePaths = ['tags', 'TAGS', '.tags', '.TAGS', '.git/tags', '.git/TAGS'].map((fileName) ->
       path.join(directoryPath, fileName)
     )
     promises = filePaths.map((filePath) ->

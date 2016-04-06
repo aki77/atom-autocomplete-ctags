@@ -1,3 +1,6 @@
+## 0.4.1
+* Added support for .git directory(@lzap)
+
 ## 0.4.0
 * Add maximumTagFileSize settings
 * Update engines

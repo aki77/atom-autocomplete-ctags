@@ -66,7 +66,7 @@ class CtagsProvider
       ).map((tag) =>
         text: tag.name
         description: tag.pattern
-        type: @constructor.kinds[tag.kind] ? null
+        type: @constructor.kinds[tag.kind] ? 'tag'
         snippet: @snippers?.generate(tag)
       )
 

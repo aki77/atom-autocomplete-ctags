@@ -8,6 +8,11 @@ class CtagsProvider
   @kinds = {
     f: 'function'
     v: 'variable'
+    c: 'class'
+    p: 'property'
+    t: 'type'
+    k: 'keyword'
+    m: 'method'
   }
 
   selector: '.source'
